@@ -20,7 +20,7 @@ extern char **env;
 /* Global program name */
 char *name;
 /* Global history counter */
-int hist;
+int his;
 
 /**
  * struct list_s - A new struct type defining a linked list.
@@ -35,13 +35,15 @@ typedef struct list_s
 
 /**
  * struct builtin_s - A new struct type defining builtin commands.
- * @name: The name of the builtin command.
- * @f: A function pointer to the builtin command's function.
+ * @naam: a pointer to a character string.
+ * @p: a pointer to a function that takes two arguments.
+ * @prow: a pointer to a pointer to a character string. 
+ * @argv: a pointer to an array of character pointers.
  */
 typedef struct builtin_s
 {
-	char *name;
-	int (*f)(char **argv, char **front);
+	char *naam;
+	int (*p)(char **argv, char **prow);
 } builtin_t;
 
 /**
@@ -54,11 +56,11 @@ typedef struct alias_s
 {
 	char *name;
 	char *value;
-	struct alias_s *next;
-} alias_t;
+	struct Alias *next;
+} Alias;
 
 /* Global aliases linked list */
-alias_t *aliases;
+Alias *aliases;
 
 /* Main Helpers */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
@@ -69,6 +71,7 @@ list_t *get_path_dir(char *path);
 int execute(char **args, char **front);
 void free_list(list_t *head);
 char *_itoa(int num);
+char *my_getline(void);
 
 /* Input Helpers */
 void handle_line(char **line, ssize_t read);
@@ -93,13 +96,15 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* Builtins */
 int (*get_builtin(char *command))(char **args, char **front);
-int shellby_exit(char **args, char **front);
-int shellby_env(char **args, char __attribute__((__unused__)) **front);
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front);
-int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front);
-int shellby_cd(char **args, char __attribute__((__unused__)) **front);
-int shellby_alias(char **args, char __attribute__((__unused__)) **front);
-int shellby_help(char **args, char __attribute__((__unused__)) **front);
+int exit_shell(char **args, char **front);
+int env_shell(char **args, char **front);
+int set_env(char **args, char **front);
+int unset_env(char **args, char  **front);
+int shell_cd(char **args, char **front);
+int shell_alias(char **args, char **front);
+int shell_help(char **args, char **front);
+void set_alias(char *var_name, char *value);
+void print_alias(alias_t *alias);
 
 /* Builtin Helpers */
 char **_copyenv(void);
@@ -132,5 +137,4 @@ void help_setenv(void);
 void help_unsetenv(void);
 void help_history(void);
 
-int proc_file_commands(char *file_path, int *exe_ret);
 #endif

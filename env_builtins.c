@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * shellby_env - Prints the current environment.
+ * env_shell - Prints the current environment.
  * @args: An array of arguments passed to the shell.
  * @front: A double pointer to the beginning of args.
  * Return: 0
  */
-int shellby_env(char **args, char __attribute__((__unused__)) **front)
+int env_shell(char **args, char **front)
 {
 	char **environ = env;
 
@@ -21,12 +21,12 @@ int shellby_env(char **args, char __attribute__((__unused__)) **front)
 
 
 /**
- * shellby_setenv - Changes or adds an environmental variable to the PATH.
+ * set_env - Changes or adds an environmental variable to the PATH.
  * @args: An array of arguments passed to the shell.
  * @front: A double pointer to the beginning of args.
  * Return: 0
  */
-int shellby_setenv(char **args, char __attribute__((__unused__)) **front)
+int set_env(char **args, char **front)
 {
 	char **env_var = NULL, **new_env, *new_value;
 	size_t size;
@@ -71,13 +71,13 @@ int shellby_setenv(char **args, char __attribute__((__unused__)) **front)
 }
 
 /**
- * shellby_unsetenv - Deletes an environmental variable from the PATH.
+ * unset_env - Deletes an environmental variable from the PATH.
  * @args: An array of arguments passed to the shell.
  * @front: A double pointer to the beginning of args.
  *
  * Return: 0 success
  */
-int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
+int unset_env(char **args, char **front)
 {
 	char **env_var, **new_env;
 	size_t size;
@@ -90,7 +90,6 @@ int shellby_unsetenv(char **args, char __attribute__((__unused__)) **front)
 		return (0);
 
 	for (size = 0; env[size]; size++)
-		;
 
 	new_env = malloc(sizeof(char *) * size);
 	if (!new_env)

@@ -64,7 +64,7 @@ int create_error(char **args, int err)
 {
 	int argc = 0;
 
-	while (args[argc] != NULL)
+	if (args[argc] != NULL)
 	{
 	argc++;
 	}
