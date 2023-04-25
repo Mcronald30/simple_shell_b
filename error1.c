@@ -72,13 +72,13 @@ char *err_1(char **args)
 	return (err);
 }
 
-char *err_exit(char **args);
+char *err2_exit(char **args);
 /**
- * err_exit - Creates an error message exit_shell.
+ * err2_exit - Creates an error message exit_shell.
  * @args: An array of arguments.
  * Return: error
  */
-char *err_exit(char **args)
+char *err2_exit(char **args)
 {
 	char *err, *hist_str;
 	int len, hist = 0;
@@ -96,24 +96,24 @@ char *err_exit(char **args)
 		return (NULL);
 	}
 
-	_strcpy(error, name);
-	_strcat(error, ": ");
-	_strcat(error, hist_str);
-	_strcat(error, ": exit: Illegal number: ");
-	_strcat(error, args[0]);
-	_strcat(error, "\n");
+	_strcpy(err, name);
+	_strcat(err, ": ");
+	_strcat(err, hist_str);
+	_strcat(err, ": exit: Illegal number: ");
+	_strcat(err, args[0]);
+	_strcat(err, "\n");
 
 	free(hist_str);
 	return (err);
 }
 
-char *err_cd(char **args);
+char *err2_cd(char **args);
 /**
- * err_cd - Creates an error message for cd
+ * err2_cd - Creates an error message for cd
  * @args: An array of arguments.
  * Return: error
  */
-char *err_cd(char **args)
+char *err2_cd(char **args)
 {
 	char *err, *hist_str;
 	int len, hist = 0;
@@ -145,5 +145,39 @@ char *err_cd(char **args)
 	_strcat(error, "\n");
 
 	free(hist_str);
+	return (err);
+}
+
+char *err2_syntax(char **args);
+/**
+ * err2_syntax - Creates an error message for syntax
+ * @args: An array of arguments.
+ * Return: The error string.
+ */
+char *err2_syntax(char **args)
+{
+	char *err, *his_str;
+	int len;
+
+	his_str = _itoa(his);
+	if (!his_str)
+		return (NULL);
+
+	len = _strlen(name) + _strlen(his_str) + _strlen(args[0]) + 33;
+	err = malloc(sizeof(char) * (len + 1));
+	if (!err)
+	{
+		free(his_str);
+		return (NULL);
+	}
+
+	_strcpy(err, name);
+	_strcat(err, ": ");
+	_strcat(err, his_str);
+	_strcat(err, ": Syntax error: \"");
+	_strcat(err, args[0]);
+	_strcat(err, "\" unexpected\n");
+
+	free(his_str);
 	return (err);
 }
